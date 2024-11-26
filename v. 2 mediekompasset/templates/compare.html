@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4 text-center">Sammenlign Medier</h1>
+        <p class="lead text-center">Vælg to eller flere medier for at sammenligne deres dækning og bias</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- Media Selection -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Vælg medier at sammenligne</h5>
+                    <div class="media-selection">
+                        {% for id, outlet in media_outlets.items() %}
+                        <div class="form-check form-check-inline mb-3">
+                            <input class="form-check-input media-checkbox" type="checkbox" 
+                                   id="{{ id }}" value="{{ id }}" 
+                                   onchange="updateComparison()">
+                            <label class="form-check-label" for="{{ id }}">
+                                {{ outlet.name }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Results -->
+    <div id="comparison-results" class="comparison-hidden">
+        <!-- Bias Comparison -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Politisk Bias Sammenligning</h5>
+                        <div class="bias-comparison">
+                            <div class="bias-meter-large mb-4">
+                                <div class="bias-labels">
+                                    <span class="bias-label-left">Venstreorienteret</span>
+                                    <span class="bias-label-center">Neutral</span>
+                                    <span class="bias-label-right">Højreorienteret</span>
+                                </div>
+                            </div>
+                            <div id="bias-indicators"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics Comparison -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Metrik Sammenligning</h5>
+                        <div class="metrics-comparison">
+                            <!-- Factuality -->
+                            <div class="metric-group mb-4">
+                                <h6>Faktualitet</h6>
+                                <div id="factuality-comparison" class="comparison-bars"></div>
+                            </div>
+                            
+                            <!-- Source Diversity -->
+                            <div class="metric-group mb-4">
+                                <h6>Kildediversitet</h6>
+                                <div id="diversity-comparison" class="comparison-bars"></div>
+                            </div>
+                            
+                            <!-- Topic Balance -->
+                            <div class="metric-group mb-4">
+                                <h6>Emnebalance</h6>
+                                <div id="balance-comparison" class="comparison-bars"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topics Comparison -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Primære Emner</h5>
+                        <div id="topics-comparison" class="topics-comparison"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const mediaData = {{ media_outlets|tojson }};
+</script>
+<script src="{{ url_for('static', path='/compare.js') }}"></script>
+{% endblock %}

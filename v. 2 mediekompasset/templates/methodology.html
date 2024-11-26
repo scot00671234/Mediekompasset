@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4 text-center">Metodologi</h1>
+        <p class="lead text-center">En detaljeret gennemgang af vores tekniske tilgang til medieanalyse</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="methodology-section">
+        <h2 class="mb-4">Teknisk implementation</h2>
+        <p class="lead">
+            Vores analyse er baseret på en kombination af avancerede Natural Language Processing (NLP) teknikker 
+            og maskinlæring, specifikt tilpasset til det danske sprog.
+        </p>
+        
+        <div class="methodology-grid">
+            <div class="methodology-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Dataindsamling</h3>
+                        <ul>
+                            <li>Automatiseret web scraping med Python</li>
+                            <li>Selenium WebDriver for dynamisk indhold</li>
+                            <li>Asynkron dataindsamling med aiohttp</li>
+                            <li>BeautifulSoup4 for HTML parsing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="methodology-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Sprogprocessering</h3>
+                        <ul>
+                            <li>SpaCy med dansk sprogmodel</li>
+                            <li>Danish BERT (Maltehb/danish-bert-botxo)</li>
+                            <li>TF-IDF vektorisering</li>
+                            <li>Custom tokenization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="methodology-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Analyse framework</h3>
+                        <ul>
+                            <li>FastAPI backend</li>
+                            <li>Jinja2 templating</li>
+                            <li>Pandas for databehandling</li>
+                            <li>scikit-learn for ML</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="methodology-section methodology-detail">
+        <h2 class="mb-4">Detaljeret teknisk beskrivelse</h2>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Dataindsamling og preprocessing</h4>
+                <p>Vores scraper-implementation bruger følgende teknologier:</p>
+                <ul>
+                    <li>Asynkron scraping med aiohttp for effektiv dataindsamling</li>
+                    <li>Selenium WebDriver for JavaScript-renderet indhold</li>
+                    <li>Custom User-Agent rotation og rate limiting</li>
+                    <li>Automatisk fejlhåndtering og retry-mekanismer</li>
+                    <li>HTML cleaning og tekstnormalisering</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Natural Language Processing</h4>
+                <p>Vores NLP-pipeline består af følgende komponenter:</p>
+                <ul>
+                    <li>SpaCy's danske sprogmodel (da_core_news_sm) for grundlæggende sproganalyse</li>
+                    <li>Danish BERT model fra BotXO for kontekstuel analyse</li>
+                    <li>Custom politisk ordbog med vægtede nøgleord</li>
+                    <li>TF-IDF vektorisering for emnemodellering</li>
+                    <li>K-means clustering for emnegrupering</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Bias-Scoring System</h4>
+                <p>Vores bias-vurdering kombinerer flere analytiske tilgange:</p>
+                <ul>
+                    <li>Regelbaseret analyse baseret på vægtede politiske nøgleord</li>
+                    <li>BERT-baseret sentimentanalyse tilpasset dansk politik</li>
+                    <li>Hybrid scoring der kombinerer regelbaseret og ML-baseret vurdering</li>
+                    <li>Konfidensberegning baseret på tekstmængde og nøgleordforekomster</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Tekniske metrikker</h4>
+                <p>Vi beregner følgende kvantitative metrikker:</p>
+                <ul>
+                    <li>Politisk bias: Normaliseret score mellem -1 og 1</li>
+                    <li>Faktualitet: Baseret på kildehenvisninger og verificerbare udsagn</li>
+                    <li>Kildediversitet: Shannon diversitetsindex af citerede kilder</li>
+                    <li>Emnebalance: Entropi-baseret måling af emnedistribution</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="methodology-section methodology-limitations">
+        <h2 class="mb-4">Tekniske begrænsninger</h2>
+        
+        <div class="card">
+            <div class="card-body">
+                <p class="mb-3">Som med alle automatiserede analysesystemer har vores implementation nogle iboende begrænsninger:</p>
+                <ul>
+                    <li>BERT-modellen er begrænset til 512 tokens per tekst-segment</li>
+                    <li>Sprogmodellen kan have udfordringer med nye politiske termer</li>
+                    <li>Ironi og sarkasme er særligt udfordrende at detektere automatisk</li>
+                    <li>Kontekstafhængige politiske referencer kræver løbende opdatering af ordbogen</li>
+                    <li>Bias-scoring er baseret på eksplicitte sproglige markører og kan overse subtile bias</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

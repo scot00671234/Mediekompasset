@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <style>
+        .bias-meter {
+            width: 200px;
+            height: 20px;
+            background: linear-gradient(to right, #ff4444, #ffffff, #4444ff);
+            position: relative;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .bias-indicator {
+            width: 10px;
+            height: 30px;
+            background: #000;
+            position: absolute;
+            top: -5px;
+            transform: translateX(-50%);
+        }
+        .media-card {
+            transition: transform 0.2s;
+        }
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .reliability-badge {
+            font-size: 12px;
+            color: #666;
+            background-color: #f7f7f7;
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+        .bias-labels {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #666;
+        }
+        .bias-label-left {
+            float: left;
+        }
+        .bias-label-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .bias-label-right {
+            float: right;
+        }
+        .metrics-summary {
+            margin-top: 20px;
+        }
+        .metric-row {
+            margin-bottom: 10px;
+        }
+        .metric-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+        }
+        .progress-bar {
+            background-color: #337ab7;
+        }
+        .topics-grid {
+            margin-top: 20px;
+        }
+        .topic-tag {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 2px 5px;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+            font-size: 12px;
+            color: #666;
+        }
+        .methodology-card {
+            margin-top: 50px;
+        }
+        .metrics-explanation {
+            margin-top: 20px;
+        }
+        .metric-explanation-item {
+            margin-bottom: 20px;
+        }
+        .hero-section {
+            background-color: #f7f7f7;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-compass"></i> Mediekompasset
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Hjem</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/methodology"><i class="fas fa-microscope"></i> Metode</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container py-5">
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 mb-3">Mediekompasset</h1>
+                    <p class="lead">din guide til at navigere i danske mediers politiske landskab</p>
+                </div>
+            </div>
+
+            <!-- Media Overview Grid -->
+            <div class="row g-4">
+                {% for id, outlet in media_outlets.items() %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="media-card">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title d-flex justify-content-between align-items-center">
+                                    {{ outlet.name }}
+                                    <span class="reliability-badge">
+                                        {{ "%.0f"|format(outlet.metrics.factuality * 100) }}% pålidelig
+                                    </span>
+                                </h5>
+                                
+                                <!-- Political Bias Meter -->
+                                <div class="bias-meter mt-3">
+                                    <div class="bias-indicator" style="left: {{ (outlet.metrics.political_bias + 1) * 50 }}%;"></div>
+                                    <div class="bias-labels">
+                                        <span class="bias-label-left">V</span>
+                                        <span class="bias-label-center">N</span>
+                                        <span class="bias-label-right">H</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Key Metrics -->
+                                <div class="metrics-summary mt-3">
+                                    <div class="metric-row">
+                                        <span class="metric-label">Kildediversitet:</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" 
+                                                 style="width: {{ outlet.metrics.source_diversity * 100 }}%">
+                                                {{ "%.0f"|format(outlet.metrics.source_diversity * 100) }}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-row">
+                                        <span class="metric-label">Emnebalance:</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" 
+                                                 style="width: {{ outlet.metrics.topic_balance * 100 }}%">
+                                                {{ "%.0f"|format(outlet.metrics.topic_balance * 100) }}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Topics -->
+                                <div class="topics-grid mt-3">
+                                    {% for topic in outlet.top_topics[:3] %}
+                                    <span class="topic-tag">{{ topic }}</span>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="mt-3">
+                                    <a href="/analyze/{{ id }}" class="btn btn-primary w-100">Se detaljeret analyse</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Methodology Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card methodology-card">
+                        <div class="card-body">
+                            <h3>Om vores analysemetode</h3>
+                            <p class="card-text">
+                                Vores analyse er baseret på følgende nøglemetrikker:
+                            </p>
+                            <div class="metrics-explanation">
+                                <div class="metric-explanation-item">
+                                    <h5>Politisk Bias</h5>
+                                    <p>Måler mediets politiske orientering på en skala fra -1 (venstreorienteret) til 1 (højreorienteret)</p>
+                                </div>
+                                <div class="metric-explanation-item">
+                                    <h5>Faktualitet</h5>
+                                    <p>Vurderer nøjagtigheden og troværdigheden af mediets rapportering</p>
+                                </div>
+                                <div class="metric-explanation-item">
+                                    <h5>Kildediversitet</h5>
+                                    <p>Måler variationen i anvendte kilder og perspektiver</p>
+                                </div>
+                                <div class="metric-explanation-item">
+                                    <h5>Emnebalance</h5>
+                                    <p>Evaluerer bredden og balancen i dækningen af forskellige emner</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
