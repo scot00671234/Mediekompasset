@@ -4,7 +4,6 @@ from newspaper import Article
 import nltk
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 from datetime import datetime
 import os
 from dotenv import load_dotenv

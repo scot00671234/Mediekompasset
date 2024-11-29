@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import nltk
-from transformers import pipeline
 
 # Download required NLTK data at startup
 try:
@@ -26,21 +25,13 @@ def home():
 
 @app.route('/api/healthcheck', methods=['GET'])
 def healthcheck():
-    global classifier
     try:
         # Test NLTK
         nltk.tokenize.word_tokenize("Test sentence")
         
-        # Test transformer model
-        if classifier is None:
-            classifier = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
-        test_result = classifier("Test sentence")[0]
-        
         return jsonify({
             "status": "healthy",
-            "nltk_test": "passed",
-            "transformer_test": "passed",
-            "model_loaded": True
+            "nltk_test": "passed"
         })
     except Exception as e:
         return jsonify({
