@@ -4,7 +4,10 @@
     {
       "src": "api/index.py",
       "use": "@vercel/python@4.1.1",
-      "config": { "runtime": "python3.12" }
+      "config": { 
+        "runtime": "python3.9",
+        "buildCommand": "chmod +x build.sh && ./build.sh"
+      }
     }
   ],
   "routes": [
