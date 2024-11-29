@@ -12,12 +12,7 @@ except Exception as e:
 app = Flask(__name__)
 CORS(app)
 
-# Initialize model globally
-try:
-    classifier = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
-except Exception as e:
-    print(f"Model loading error (will retry on demand): {str(e)}")
-    classifier = None
+# Removed transformer-based classifier
 
 @app.route('/api', methods=['GET'])
 def home():
