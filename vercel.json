@@ -3,12 +3,7 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python@3.1.30",
-      "config": {
-        "runtime": "python3.9",
-        "maxLambdaSize": "15mb",
-        "buildCommand": "chmod +x build.sh && ./build.sh"
-      }
+      "use": "@vercel/python@3.1.30"
     }
   ],
   "routes": [
@@ -16,8 +11,5 @@
       "src": "/(.*)",
       "dest": "api/index.py"
     }
-  ],
-  "env": {
-    "PYTHONPATH": "."
-  }
+  ]
 }
