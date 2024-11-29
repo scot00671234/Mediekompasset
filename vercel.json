@@ -3,10 +3,10 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python@4.1.1",
+      "use": "@vercel/python@3.1.30",
       "config": { 
         "runtime": "python3.9",
-        "buildCommand": "chmod +x build.sh && ./build.sh"
+        "maxLambdaSize": "15mb"
       }
     }
   ],
