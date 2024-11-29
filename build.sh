@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Update pip to latest version
+# Update pip
 python -m pip install --upgrade pip
 
-# Install dependencies with specific flags
-pip install --no-cache-dir -r requirements.txt --use-pep517
+# Install dependencies
+pip install -r requirements.txt
+
+# Download spaCy model
+python -m spacy download en_core_web_sm
